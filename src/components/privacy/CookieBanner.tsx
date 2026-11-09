@@ -44,30 +44,28 @@ export function CookieBanner() {
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="fixed inset-x-3 bottom-3 z-[70] sm:inset-x-auto sm:left-5 sm:bottom-5 sm:max-w-md"
           >
-            <div className="card p-5 shadow-[var(--shadow-lift)]">
+            <div className="rounded-2xl border border-white/10 bg-navy-950/95 p-5 text-white shadow-[0_30px_60px_-20px_rgb(0_0_0/0.7)] backdrop-blur-xl">
               <div className="flex items-start gap-3">
-                <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-cyan-50 text-brand">
+                <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-cyan/15 text-cyan">
                   <Cookie className="size-4" aria-hidden />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-navy">Sua privacidade importa</p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted">
-                    Usamos apenas cookies necessários para o funcionamento do site. Cookies opcionais só são
-                    ativados com a sua autorização.{" "}
-                    <Link href="/politica-de-cookies" className="font-medium text-brand underline underline-offset-2">
-                      Política de Cookies
-                    </Link>
+                  <p className="font-display text-sm font-semibold">Sua privacidade importa</p>
+                  <p className="mt-1 text-sm leading-relaxed text-white/65">
+                    Usamos apenas cookies necessários para o funcionamento do site. Cookies opcionais só são ativados com a
+                    sua autorização.{" "}
+                    <Link href="/politica-de-cookies" className="font-medium text-cyan-300 underline underline-offset-2">Política de Cookies</Link>
                   </p>
                 </div>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                <button type="button" onClick={() => save({ analytics: true, marketing: true })} className="rounded-full bg-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand">
+                <button type="button" onClick={() => save({ analytics: true, marketing: true })} className="rounded-full bg-cyan px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-600">
                   Aceitar todos
                 </button>
-                <button type="button" onClick={() => save({ analytics: false, marketing: false })} className="rounded-full border border-line px-4 py-2 text-sm font-semibold text-navy transition hover:border-navy">
+                <button type="button" onClick={() => save({ analytics: false, marketing: false })} className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:border-white">
                   Rejeitar não essenciais
                 </button>
-                <button type="button" onClick={openPreferences} className="rounded-full px-3 py-2 text-sm font-semibold text-brand underline-offset-2 hover:underline">
+                <button type="button" onClick={openPreferences} className="rounded-full px-3 py-2 text-sm font-semibold text-cyan-300 underline-offset-2 hover:underline">
                   Personalizar
                 </button>
               </div>
@@ -115,10 +113,10 @@ function PreferencesDialog({ onClose }: { onClose: () => void }) {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 20, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="card w-full max-w-lg p-6 sm:p-7"
+        className="w-full max-w-lg rounded-[1.5rem] border border-line bg-white p-6 shadow-[var(--shadow-lift)] sm:p-7"
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 id={titleId} className="text-2xl">Preferências de cookies</h2>
+          <h2 id={titleId} className="text-2xl font-semibold text-navy-900">Preferências de cookies</h2>
           <button type="button" onClick={onClose} className="rounded-full p-1.5 text-muted hover:bg-mist hover:text-navy" aria-label="Fechar preferências">
             <X className="size-5" />
           </button>

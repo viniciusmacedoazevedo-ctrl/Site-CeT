@@ -8,10 +8,10 @@ Campina Grande e João Pessoa (PB).
 | Camada | Escolha |
 |---|---|
 | Framework | Next.js 15 (App Router, exportação estática) + React 19 + TypeScript |
-| Estilo | Tailwind CSS 4, tokens de marca em `src/app/globals.css` |
+| Estilo | Tailwind CSS 4, tokens de marca em `src/app/globals.css` (branco, azul-marinho, azul-ciano e preto) |
 | Animações | Framer Motion (respeita "reduzir movimento") |
 | Ícones | Lucide + ícones de redes sociais próprios (`SocialIcon`) |
-| Fontes | Fraunces (títulos) e Manrope (texto), servidas pelo próprio site via Fontsource |
+| Fontes | Sora (títulos), Manrope (texto) e Fraunces itálica (destaques), servidas pelo próprio site |
 | Mapas 3D | MapLibre GL JS 5 + tiles vetoriais do OpenFreeMap (dados OpenStreetMap), sem chave de API |
 
 ## Estrutura
@@ -19,17 +19,23 @@ Campina Grande e João Pessoa (PB).
 ```
 src/
   app/
-    page.tsx                    Página inicial (todas as seções)
-    servicos/[slug]/page.tsx    Página de cada um dos 12 serviços
+    page.tsx                    Página inicial (narrativa resumida, 8 seções)
+    sobre/                      A C&T: quem somos, missão, diferenciais, parceiros, momentos
+    servicos/                   Serviços por grupo + servicos/[slug] (12 páginas)
+    unidades/                   Unidades com mapas 3D
+    links-uteis/                Central de links com busca
+    contato/                    Formulário e canais de contato
+    template.tsx                Transição entre páginas
     politica-de-privacidade/    Política de Privacidade (LGPD)
     politica-de-cookies/        Política de Cookies
     direitos-do-titular/        Formulário de direitos do titular (art. 18 LGPD)
     sitemap.ts, robots.ts, manifest.ts, opengraph-image.png, icon.png
   components/
-    layout/      Header, Footer
-    sections/    Hero, About, Services, Differentials, Partners, Instagram,
-                 Locations, UsefulLinks, Contact
-    locations/   UnitMap (mapa 3D)
+    layout/      Header (com submenus), Footer, PageHero
+    sections/    Hero, HomeSections, Differentials, Partners, Instagram, Contact
+    services/    ServiceFlipGrid (cartões com giro 3D)
+    locations/   UnitsExplorer (escolha da unidade) e UnitMap (mapa 3D)
+    links/       LinksAccordion (categorias expansíveis)
     chat/        ChatWidget, ClauAvatar, engine (motor de conversa da Cláu)
     privacy/     ConsentProvider, CookieBanner
     forms/       Campos acessíveis e formulário LGPD

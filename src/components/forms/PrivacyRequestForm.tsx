@@ -35,7 +35,7 @@ export function PrivacyRequestForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="card relative space-y-5 p-6 sm:p-8">
+    <form onSubmit={onSubmit} noValidate className="relative space-y-5 rounded-[1.5rem] border border-line bg-white p-6 shadow-[var(--shadow-soft)] sm:p-8">
       <Honeypot />
       <div className="flex items-center gap-3">
         <span className="grid size-10 place-items-center rounded-xl bg-cyan-50 text-brand"><ShieldCheck className="size-5" aria-hidden /></span>

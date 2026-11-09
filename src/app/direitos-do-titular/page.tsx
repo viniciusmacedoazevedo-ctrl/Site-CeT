@@ -14,7 +14,7 @@ export default function DataSubjectRights() {
     <LegalPage
       title="Direitos do Titular"
       updated="novembro de 2026"
-      intro={<>Use este canal para fazer solicitações sobre seus dados pessoais, conforme o art. 18 da LGPD. Leia também a <Link href="/politica-de-privacidade" className="text-brand underline">Política de Privacidade</Link>.</>}
+      intro={<>Use este canal para fazer solicitações sobre seus dados pessoais, conforme o art. 18 da LGPD. Leia também a <Link href="/politica-de-privacidade" className="text-cyan-300 underline">Política de Privacidade</Link>.</>}
     >
       <p>
         Responderemos no prazo legal aplicável. Para proteger seus dados, poderemos pedir informações adicionais para

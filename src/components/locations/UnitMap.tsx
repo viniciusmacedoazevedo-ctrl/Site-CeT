@@ -19,33 +19,39 @@ import type { Unit } from "@/data/units";
 
 const STYLE_URL = process.env.NEXT_PUBLIC_MAP_STYLE_URL ?? "https://tiles.openfreemap.org/styles/positron";
 
+/** Paleta noturna da C&T: azul-marinho com prédios iluminados em ciano. */
 const palette = {
-  background: "#f3f6f8",
-  water: "#c9e9f3",
-  park: "#e5f0ea",
-  residential: "#eef2f5",
-  roadMinor: "#ffffff",
-  roadMajor: "#ffffff",
-  roadCasing: "#d6dfe7",
-  buildingLow: "#dfe7ee",
-  buildingHigh: "#9fb8cc",
-  label: "#3d5468",
+  background: "#0b1d30",
+  water: "#0f3350",
+  park: "#0f2a36",
+  residential: "#0d2236",
+  roadMinor: "#1b3a58",
+  roadMajor: "#2b5578",
+  roadCasing: "#0a1a2b",
+  label: "#9fc3dc",
+  labelHalo: "#0a1c2e",
 };
 
 function brandStyle(style: StyleSpecification): StyleSpecification {
   const layers = style.layers
-    .filter((l) => l.id !== "building" && l.id !== "natural_earth")
+    .filter((l) => l.id !== "building" && l.id !== "natural_earth" && l.id !== "ne2_shaded")
     .map((l) => {
       const layer = structuredClone(l) as typeof l & { paint?: Record<string, unknown> };
       layer.paint = { ...(layer.paint ?? {}) };
       if (l.id === "background") layer.paint["background-color"] = palette.background;
       if (l.id === "water") layer.paint["fill-color"] = palette.water;
       if (l.id === "park") layer.paint["fill-color"] = palette.park;
-      if (l.id === "landuse_residential") layer.paint["fill-color"] = palette.residential;
-      if (l.id === "highway_minor") layer.paint["line-color"] = palette.roadMinor;
-      if (l.id.endsWith("_inner") && l.id.startsWith("highway")) layer.paint["line-color"] = palette.roadMajor;
-      if (l.id.endsWith("_casing") && l.id.startsWith("highway")) layer.paint["line-color"] = palette.roadCasing;
-      if (l.type === "symbol" && l.id.startsWith("highway-name")) layer.paint["text-color"] = palette.label;
+      if (l.id.startsWith("landuse") || l.id.startsWith("landcover")) layer.paint[l.type === "fill" ? "fill-color" : "line-color"] = palette.residential;
+      if (l.type === "line" && (l.id.startsWith("highway") || l.id.startsWith("road") || l.id.startsWith("tunnel"))) {
+        layer.paint["line-color"] = l.id.includes("casing") ? palette.roadCasing : l.id.includes("minor") || l.id.includes("path") ? palette.roadMinor : palette.roadMajor;
+      }
+      if (l.type === "line" && l.id.startsWith("boundary")) layer.paint["line-color"] = "#2b5578";
+      if (l.type === "line" && l.id.startsWith("waterway")) layer.paint["line-color"] = palette.water;
+      if (l.type === "symbol") {
+        layer.paint["text-color"] = palette.label;
+        layer.paint["text-halo-color"] = palette.labelHalo;
+        layer.paint["text-halo-width"] = 1.2;
+      }
       return layer;
     });
 
@@ -59,13 +65,13 @@ function brandStyle(style: StyleSpecification): StyleSpecification {
     paint: {
       "fill-extrusion-color": [
         "interpolate", ["linear"], ["coalesce", ["get", "render_height"], 6],
-        0, palette.buildingLow,
-        40, "#c3d3e0",
-        120, palette.buildingHigh,
+        0, "#1d4466",
+        30, "#2a6a92",
+        90, "#3ea6c8",
       ],
       "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 13, 0, 14.5, ["coalesce", ["get", "render_height"], 6]],
       "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], 0],
-      "fill-extrusion-opacity": 0.92,
+      "fill-extrusion-opacity": 0.9,
       "fill-extrusion-vertical-gradient": true,
     },
   } as unknown as StyleSpecification["layers"][number];
@@ -212,15 +218,15 @@ export function UnitMap({ unit, active }: { unit: Unit; active: boolean }) {
   }
 
   const controlBtn =
-    "inline-flex items-center gap-1.5 rounded-full border border-line bg-white/95 px-3.5 py-2 text-xs font-semibold text-navy shadow-[var(--shadow-soft)] backdrop-blur transition hover:border-cyan hover:text-brand disabled:opacity-50";
+    "inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-navy-950/75 px-3.5 py-2 text-xs font-semibold text-white shadow-[0_10px_24px_-10px_rgb(0_0_0/0.6)] backdrop-blur transition hover:border-cyan hover:text-cyan aria-pressed:border-cyan aria-pressed:text-cyan disabled:opacity-50";
 
   return (
-    <div className="relative size-full overflow-hidden bg-[#eef3f7]">
+    <div className="relative size-full overflow-hidden bg-navy-900">
       <div ref={containerRef} className="size-full" aria-label={`Mapa 3D interativo da unidade ${unit.city}`} role="application" />
 
       {status !== "ready" && (
         <div className="absolute inset-0 grid place-items-center">
-          <div aria-hidden className="grid-paper absolute inset-0 opacity-70" />
+          <div aria-hidden className="hairline-grid absolute inset-0" />
           {status === "error" ? (
             <p className="relative max-w-xs rounded-xl bg-white p-4 text-center text-sm text-muted shadow-[var(--shadow-soft)]">
               Não foi possível carregar o mapa agora. Use os botões ao lado para abrir a localização no Google Maps.

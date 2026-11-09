@@ -49,13 +49,29 @@ export const contactSectors = [
   "Pessoal",
 ] as const;
 
-export const navItems = [
-  { href: "/#inicio", label: "Início" },
-  { href: "/#empresa", label: "A Empresa" },
-  { href: "/#servicos", label: "Serviços" },
-  { href: "/#diferenciais", label: "Diferenciais" },
-  { href: "/#parceiros", label: "Parceiros" },
-  { href: "/#unidades", label: "Unidades" },
-  { href: "/#links-uteis", label: "Links Úteis" },
-  { href: "/#contato", label: "Contato" },
+export type NavChild = { href: string; label: string; description?: string };
+export type NavItem = { href: string; label: string; children?: NavChild[]; mega?: "services" };
+
+export const navItems: NavItem[] = [
+  { href: "/", label: "Início" },
+  {
+    href: "/sobre",
+    label: "A C&T",
+    children: [
+      { href: "/sobre", label: "Quem somos", description: "História, missão, visão e valores" },
+      { href: "/sobre#diferenciais", label: "Diferenciais", description: "Como trabalhamos ao seu lado" },
+      { href: "/sobre#parceiros", label: "Parceiros", description: "Empresas que caminham com a C&T" },
+      { href: "/sobre#momentos", label: "Momentos", description: "Eventos, ações sociais e Instagram" },
+    ],
+  },
+  { href: "/servicos", label: "Serviços", mega: "services" },
+  { href: "/unidades", label: "Unidades" },
+  { href: "/links-uteis", label: "Links Úteis" },
+  { href: "/contato", label: "Contato" },
 ];
+
+export const serviceGroups = [
+  { id: "Rotina", title: "Rotina empresarial", description: "Contabilidade, tributos e pessoal em dia." },
+  { id: "Gestão", title: "Gestão e controle", description: "Informação confiável para gerir melhor." },
+  { id: "Estratégia", title: "Estratégia e projetos", description: "Decisões, projetos e defesa técnica." },
+] as const;

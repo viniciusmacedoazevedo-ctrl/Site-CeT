@@ -45,7 +45,7 @@ export const mainMenu: QuickReply[] = [
 const consultantReplies: QuickReply[] = [
   { label: "WhatsApp", action: { type: "link", href: whatsappLink(mainWhatsApp.number, "Olá! Vim pelo site da C&T e gostaria de falar com um consultor."), external: true } },
   ...units.map((u) => ({ label: `Ligar — ${u.city}`, action: { type: "link" as const, href: `tel:${u.phones[0].tel}` } })),
-  { label: "Enviar mensagem", action: { type: "scroll", target: "contato" } },
+  { label: "Enviar mensagem", action: { type: "link", href: "/contato" } },
 ];
 
 const norm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -62,7 +62,7 @@ const rules: Rule[] = [
     respond: () => [
       bot(
         units.map((u) => `${u.city}: ${u.street}, ${u.number} — ${u.district}. Tel. ${u.phones.map((p) => p.display).join(" / ")}`).join("\n\n"),
-        [{ label: "Ver mapas 3D", action: { type: "scroll", target: "unidades" } }, { label: "Falar com um consultor", action: { type: "reply", text: "Falar com um consultor" } }],
+        [{ label: "Ver mapas 3D", action: { type: "link", href: "/unidades" } }, { label: "Falar com um consultor", action: { type: "reply", text: "Falar com um consultor" } }],
       ),
     ],
   },
@@ -70,7 +70,7 @@ const rules: Rule[] = [
     test: /link|portal|receita|sefaz|jucep|simples|esocial|nfs|nota fiscal|crc|cfc|sebrae|prefeitura/,
     respond: () => [
       bot("Reunimos os principais portais oficiais (Receita Federal, SEFAZ-PB, JUCEP, prefeituras e mais) na nossa Central de Links Úteis.", [
-        { label: "Abrir Central de Links", action: { type: "scroll", target: "links-uteis" } },
+        { label: "Abrir Central de Links", action: { type: "link", href: "/links-uteis" } },
       ]),
     ],
   },
@@ -90,7 +90,7 @@ const rules: Rule[] = [
       return [
         bot(`Atuamos em ${services.length} frentes. Algumas das mais procuradas:`, [
           ...services.slice(0, 4).map((s) => ({ label: s.title, action: { type: "link" as const, href: `/servicos/${s.slug}` } })),
-          { label: "Ver todos os serviços", action: { type: "scroll", target: "servicos" } },
+          { label: "Ver todos os serviços", action: { type: "link", href: "/servicos" } },
         ]),
       ];
     },
