@@ -1,0 +1,208 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope";
+@import "@fontsource-variable/fraunces";
+
+@theme {
+  --color-white: #ffffff;
+  --color-cyan: #17aed2;
+  --color-cyan-600: #0f93b4;
+  --color-cyan-50: #e8f7fb;
+  --color-cyan-100: #cdeef7;
+  --color-brand: #075a91;
+  --color-brand-700: #054874;
+  --color-navy: #102a43;
+  --color-navy-900: #0a1c2e;
+  --color-ink: #171717;
+  --color-mist: #f5f7f9;
+  --color-line: #e3e9ef;
+  --color-muted: #5b6b7b;
+
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+
+  --shadow-soft: 0 1px 2px rgb(16 42 67 / 0.04), 0 8px 24px -12px rgb(16 42 67 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(16 42 67 / 0.05), 0 24px 48px -20px rgb(16 42 67 / 0.25);
+  --shadow-logo: 0 1px 0 rgb(255 255 255 / 0.6);
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-cyan-100);
+    color: var(--color-navy);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.015em;
+    color: var(--color-navy);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-site {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-site { padding-inline: 2rem; }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--color-cyan);
+  }
+
+  /* Logo "3D": profundidade discreta por camadas de sombra, sem alterar o arquivo. */
+  .logo-3d {
+    filter:
+      drop-shadow(0 1px 0 rgb(255 255 255 / 0.9))
+      drop-shadow(0 2px 1px rgb(7 90 145 / 0.18))
+      drop-shadow(0 10px 14px rgb(16 42 67 / 0.16));
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+  .logo-3d:hover {
+    filter:
+      drop-shadow(0 1px 0 rgb(255 255 255 / 0.9))
+      drop-shadow(0 3px 2px rgb(7 90 145 / 0.22))
+      drop-shadow(0 16px 22px rgb(16 42 67 / 0.22));
+  }
+
+  .card {
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .grid-paper {
+    background-image:
+      linear-gradient(to right, rgb(16 42 67 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(16 42 67 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .prose-legal h2 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-legal h3 {
+    font-size: 1.125rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-legal p, .prose-legal li {
+    color: #334555;
+    line-height: 1.75;
+  }
+  .prose-legal p + p { margin-top: 0.85rem; }
+  .prose-legal ul { list-style: disc; padding-left: 1.25rem; margin: 0.75rem 0; }
+  .prose-legal li + li { margin-top: 0.35rem; }
+  .prose-legal a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.925rem; }
+  .prose-legal th, .prose-legal td { border: 1px solid var(--color-line); padding: 0.6rem 0.75rem; text-align: left; vertical-align: top; }
+  .prose-legal th { background: var(--color-mist); color: var(--color-navy); }
+
+  .pending {
+    background: #fff6db;
+    border: 1px dashed #d8a400;
+    color: #6b5200;
+    border-radius: 0.35rem;
+    padding: 0 0.35rem;
+    font-size: 0.9em;
+  }
+}
+
+/* MapLibre: ajustes de identidade */
+.maplibregl-ctrl-group {
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-soft) !important;
+  border: 1px solid var(--color-line);
+  overflow: hidden;
+}
+.maplibregl-ctrl-group button { width: 36px !important; height: 36px !important; }
+.maplibregl-ctrl-attrib { font-size: 10px; background: rgb(255 255 255 / 0.8) !important; }
+.maplibregl-cooperative-gesture-screen {
+  background: rgb(16 42 67 / 0.72) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.95rem !important;
+}
+
+/* Marcador personalizado C&T */
+.cet-marker { position: relative; display: flex; flex-direction: column; align-items: center; cursor: default; }
+.cet-marker__pin {
+  position: relative; z-index: 2; display: grid; place-items: center;
+  width: 52px; height: 52px; border-radius: 9999px 9999px 9999px 4px; transform: rotate(-45deg);
+  background: linear-gradient(145deg, #ffffff, #e8f7fb); border: 2px solid var(--color-cyan);
+  box-shadow: 0 10px 24px -8px rgb(16 42 67 / 0.55);
+}
+.cet-marker__pin img { transform: rotate(45deg); width: 40px; height: 40px; }
+.cet-marker__pulse {
+  position: absolute; z-index: 1; bottom: -10px; width: 26px; height: 10px; border-radius: 50%;
+  background: rgb(23 174 210 / 0.45); animation: cet-pulse 2.4s ease-out infinite;
+}
+.cet-marker__label {
+  position: absolute; bottom: calc(100% + 10px); white-space: nowrap; border-radius: 9999px;
+  background: var(--color-navy); color: #fff; font: 600 12px/1 var(--font-sans); padding: 7px 11px;
+  box-shadow: 0 8px 20px -8px rgb(16 42 67 / 0.6);
+}
+@keyframes cet-pulse {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* Esconde a Cláu enquanto o menu móvel está aberto */
+body[data-menu-open] .chat-root { display: none; }
