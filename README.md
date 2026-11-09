@@ -7,7 +7,7 @@ Campina Grande e João Pessoa (PB).
 
 | Camada | Escolha |
 |---|---|
-| Framework | Next.js 15 (App Router) + React 19 + TypeScript |
+| Framework | Next.js 15 (App Router, exportação estática) + React 19 + TypeScript |
 | Estilo | Tailwind CSS 4, tokens de marca em `src/app/globals.css` |
 | Animações | Framer Motion (respeita "reduzir movimento") |
 | Ícones | Lucide + ícones de redes sociais próprios (`SocialIcon`) |
@@ -24,8 +24,6 @@ src/
     politica-de-privacidade/    Política de Privacidade (LGPD)
     politica-de-cookies/        Política de Cookies
     direitos-do-titular/        Formulário de direitos do titular (art. 18 LGPD)
-    api/contato/route.ts        Recebe o formulário de contato (validação no servidor)
-    api/privacidade/route.ts    Recebe solicitações de titulares
     sitemap.ts, robots.ts, manifest.ts, opengraph-image.png, icon.png
   components/
     layout/      Header, Footer
@@ -38,8 +36,9 @@ src/
     legal/       Layout das páginas legais
     ui/          Logo, botões, títulos de seção, animação de entrada
   data/          TODO o conteúdo editável: empresa, unidades, serviços, links, parceiros
-  lib/           Validação compartilhada, SEO (schema.org), infraestrutura de formulários
+  lib/           Validação, envio de formulários (Web3Forms) e SEO (schema.org)
 public/images/   branding, partners, units, events
+public/_headers, public/_redirects   Segurança e redirecionamentos na hospedagem
 public/referencias/  Logo original enviada pelo cliente
 docs/            Levantamento do site antigo, pendências e integrações
 ```
@@ -48,7 +47,11 @@ docs/            Levantamento do site antigo, pendências e integrações
 
 ## Executar localmente
 
-Requisitos: Node.js 20 ou superior.
+Requisitos: Node.js 20 ou superior. O código está na branch `claude/bold-planck-pytlap`:
+
+```bash
+git fetch origin && git checkout claude/bold-planck-pytlap
+```
 
 ```bash
 npm install
@@ -58,40 +61,48 @@ npm install
 npm run dev
 ```
 
-Acesse http://localhost:3000. Para testar a versão de produção:
+Acesse http://localhost:3000.
 
-```bash
-npm run build && npm run start
-```
+## Publicar de graça (Cloudflare Pages)
 
-## Publicar
+O site é **100% estático**: `npm run build` gera a pasta `out/`, sem servidor. O Cloudflare
+Pages hospeda de graça, com uso comercial permitido, HTTPS automático, banda ilimitada e
+domínio próprio.
 
-O site precisa de um servidor Node.js por causa dos formulários (rotas `/api`). Opções:
+1. Crie uma conta gratuita em https://dash.cloudflare.com → Workers & Pages → Create → Pages →
+   Connect to Git e escolha este repositório.
+2. Configuração de build:
+   - Framework preset: `Next.js (Static HTML Export)`
+   - Build command: `npm run build`
+   - Build output directory: `out`
+   - Variáveis de ambiente: `NEXT_PUBLIC_WEB3FORMS_KEY`, `NEXT_PUBLIC_SITE_URL` e `NODE_VERSION=20`
+3. Em Custom domains, adicione `www.cetconsultores.com.br` e siga as instruções de DNS.
 
-1. **Vercel** (recomendado): importe o repositório do GitHub em vercel.com, configure as
-   variáveis de ambiente (veja `.env.example`) e aponte o domínio `cetconsultores.com.br`.
-   O plano gratuito (Hobby) é para uso não comercial; para empresa, use o plano Pro.
-2. **Qualquer hospedagem Node** (VPS, Render, Railway, cPanel com Node): `npm run build`
-   e `npm run start` atrás de HTTPS.
+Os arquivos `public/_headers` (cabeçalhos de segurança) e `public/_redirects` (endereços do
+site antigo) são aplicados automaticamente pelo Cloudflare Pages e também pelo Netlify.
+Alternativas gratuitas: Netlify (plano Free) ou GitHub Pages; o GitHub Pages ignora
+`_headers` e `_redirects`.
 
 Antes de publicar:
 
-- Defina `NEXT_PUBLIC_SITE_URL` com o domínio final.
-- Configure o envio dos formulários (`docs/integracoes.md`). Sem isso, o site avisa o
+- Crie a Access Key gratuita dos formulários (`docs/integracoes.md`). Sem ela, o site avisa o
   visitante de que o envio on-line não está ativo e oferece telefone e WhatsApp.
 - Resolva as pendências de `docs/pendencias.md` e peça a revisão jurídica das políticas.
-- Os endereços antigos (`/sobre`, `/servicos`, `/contato` etc.) já redirecionam para as
-  novas seções (`next.config.ts`).
 
-## Custos externos previstos
+## Custos
 
-| Item | Custo |
-|---|---|
-| Mapas (MapLibre + OpenFreeMap) | Gratuito, sem chave e sem limite contratual. É um serviço comunitário sem SLA; para garantia contratual, troque `NEXT_PUBLIC_MAP_STYLE_URL` por um provedor pago (ex.: MapTiler, a partir de ~US$ 25/mês). |
-| Hospedagem | Vercel Pro ~US$ 20/mês por membro, ou VPS a partir de ~R$ 30/mês. |
-| E-mail dos formulários (Resend) | Gratuito até 3.000 e-mails/mês. Alternativa: webhook para um sistema próprio. |
-| Domínio `.com.br` | ~R$ 40/ano (Registro.br), já pertencente ao cliente. |
-| Instagram automático (opcional) | API oficial da Meta, gratuita, mas exige app e token renovável. |
+| Item | Solução | Custo |
+|---|---|---|
+| Hospedagem | Cloudflare Pages (site estático) | Gratuito |
+| Formulários | Web3Forms (250 envios/mês no plano grátis) | Gratuito |
+| Mapas 3D | MapLibre + OpenFreeMap, sem chave de API | Gratuito |
+| Fontes e ícones | Fraunces, Manrope e Lucide (licenças livres, servidas pelo próprio site) | Gratuito |
+| Assistente Cláu | Respostas automáticas no navegador | Gratuito |
+| Instagram | Publicações cadastradas em `src/data/content.ts` | Gratuito |
+| Domínio `cetconsultores.com.br` | Já registrado pela C&T | Renovação anual no Registro.br, que a empresa já paga hoje |
+
+O único custo que continua existindo é a renovação do domínio, que a C&T já tem. Se quiser
+custo absolutamente zero, o site funciona no endereço gratuito `*.pages.dev` do Cloudflare.
 
 ## Qualidade
 

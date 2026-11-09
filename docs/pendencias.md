@@ -11,9 +11,9 @@ texto neutro. Os arquivos indicados ficam em `src/data/`.
 | Endereço da sede/matriz (controlador LGPD) | Não informado | `politica-de-privacidade/page.tsx` |
 | Encarregado de dados (DPO) e e-mail de privacidade | Não informado | `company.ts` → `privacyEmail` e a política |
 | E-mail institucional | O site antigo não publica e-mail | `company.ts` → `email` |
-| Destino dos formulários | Precisa de e-mail ou webhook | `.env` (veja `docs/integracoes.md`) |
+| Destino dos formulários | Criar a Access Key gratuita do Web3Forms com o e-mail da C&T | Variável `NEXT_PUBLIC_WEB3FORMS_KEY` (veja `docs/integracoes.md`) |
 | Prazos de retenção dos dados | Sugestão de 12 meses para contatos | Política de Privacidade |
-| Fornecedores (hospedagem, e-mail) | A definir | Política de Privacidade |
+| Fornecedores | Cloudflare Pages (hospedagem) e Web3Forms (formulários), já citados na política | Política de Privacidade |
 | Revisão jurídica das políticas | Obrigatória | — |
 
 ## Conferir

@@ -4,8 +4,8 @@
  * Arquitetura preparada para IA: o widget conversa com um `ChatProvider`.
  * Hoje usamos o `scriptedProvider` (respostas automáticas, sem IA e sem
  * envio de dados a terceiros). Para integrar um atendimento inteligente,
- * implemente um provider que chame uma rota do servidor (ex.: /api/chat),
- * que por sua vez acessa o modelo de IA com a chave guardada no servidor.
+ * implemente um provider que chame um serviço de IA por meio de um backend
+ * que guarde a chave em segredo (veja docs/integracoes.md).
  */
 
 import { services } from "@/data/services";

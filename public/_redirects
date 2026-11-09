@@ -1,0 +1,10 @@
+# Endereços do site antigo -> novas seções (Cloudflare Pages e Netlify)
+/home               /                  301
+/sobre              /#empresa          301
+/servicos           /#servicos         301
+/unidades           /#unidades         301
+/contato            /#contato          301
+/eventos            /#instagram        301
+/eventos/*          /#instagram        301
+/baixe-o-app        /#empresa          301
+/trabalhe-conosco   /#contato          302

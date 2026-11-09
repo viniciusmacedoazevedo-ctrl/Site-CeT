@@ -71,14 +71,4 @@ export type SubmitState =
   | { kind: "idle" }
   | { kind: "sending" }
   | { kind: "success"; protocol?: string }
-  | { kind: "error"; reason: "not_configured" | "rate_limited" | "network" | "failed" };
-
-export async function submitJson(url: string, body: Record<string, unknown>) {
-  try {
-    const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    const json = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; errors?: Record<string, string>; protocol?: string };
-    return { status: res.status, json };
-  } catch {
-    return { status: 0, json: {} as { error?: string; errors?: Record<string, string>; protocol?: string } };
-  }
-}
+  | { kind: "error"; reason: "not_configured" | "network" | "failed" };

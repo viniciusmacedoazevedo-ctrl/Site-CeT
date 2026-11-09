@@ -3,7 +3,8 @@
 import { useRef, useState } from "react";
 import { CheckCircle2, Loader2, ShieldCheck, TriangleAlert } from "lucide-react";
 import { parsePrivacyRequest, privacyRequestTypes, type FieldErrors } from "@/lib/forms";
-import { Honeypot, SelectField, submitJson, TextAreaField, TextField, type SubmitState } from "./fields";
+import { Honeypot, SelectField, TextAreaField, TextField, type SubmitState } from "./fields";
+import { deliverForm } from "@/lib/formDelivery";
 
 export function PrivacyRequestForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -21,13 +22,16 @@ export function PrivacyRequestForm() {
       return;
     }
     setState({ kind: "sending" });
-    const { status, json } = await submitJson("/api/privacidade", { ...values, startedAt: startedAt.current });
-    if (status === 200) { setState({ kind: "success", protocol: json.protocol }); form.reset(); }
-    else if (status === 422 && json.errors) { setErrors(json.errors); setState({ kind: "idle" }); }
-    else if (status === 503) setState({ kind: "error", reason: "not_configured" });
-    else if (status === 429) setState({ kind: "error", reason: "rate_limited" });
-    else if (status === 0) setState({ kind: "error", reason: "network" });
-    else setState({ kind: "error", reason: "failed" });
+    const protocol = `LGPD-${Date.now().toString(36).toUpperCase()}`;
+    const result = await deliverForm({
+      subject: `[LGPD] ${values.requestType} — ${protocol}`,
+      fields: { Protocolo: protocol, Nome: values.name, "E-mail": values.email, Solicitação: values.requestType, Detalhes: values.details },
+      replyTo: values.email,
+      honeypot: values.website,
+      startedAt: startedAt.current,
+    });
+    if (result === "ok") { setState({ kind: "success", protocol }); form.reset(); }
+    else setState({ kind: "error", reason: result });
   }
 
   return (
@@ -62,9 +66,7 @@ export function PrivacyRequestForm() {
             <TriangleAlert className="size-5 shrink-0" aria-hidden />
             {state.reason === "not_configured"
               ? "O envio on-line deste canal ainda não está ativado e sua solicitação não foi enviada. Entre em contato por telefone com uma de nossas unidades."
-              : state.reason === "rate_limited"
-                ? "Muitas tentativas. Aguarde alguns minutos e tente novamente."
-                : "Não foi possível enviar agora. Tente novamente mais tarde."}
+              : "Não foi possível enviar agora. Tente novamente mais tarde."}
           </p>
         )}
       </div>

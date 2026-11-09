@@ -8,6 +8,8 @@ import { mainWhatsApp, whatsappLink, SITE_URL } from "@/data/company";
 import { ButtonLink } from "@/components/ui/primitives";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }

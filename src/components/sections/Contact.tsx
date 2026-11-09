@@ -9,7 +9,8 @@ import { mainWhatsApp, whatsappLink } from "@/data/company";
 import { units } from "@/data/units";
 import { SectionHeading } from "@/components/ui/primitives";
 import { SocialIcon } from "@/components/ui/SocialIcon";
-import { Honeypot, SelectField, submitJson, TextAreaField, TextField, type SubmitState } from "@/components/forms/fields";
+import { Honeypot, SelectField, TextAreaField, TextField, type SubmitState } from "@/components/forms/fields";
+import { deliverForm } from "@/lib/formDelivery";
 
 export function Contact() {
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -29,18 +30,18 @@ export function Contact() {
       return;
     }
     setState({ kind: "sending" });
-    const { status, json } = await submitJson("/api/contato", { ...values, startedAt: startedAt.current });
-    if (status === 200) {
+    const result = await deliverForm({
+      subject: `[Site] ${values.subject} — ${values.name}`,
+      fields: { Nome: values.name, "E-mail": values.email, Telefone: values.phone, Assunto: values.subject, Mensagem: values.message },
+      replyTo: values.email,
+      honeypot: values.website,
+      startedAt: startedAt.current,
+    });
+    if (result === "ok") {
       setState({ kind: "success" });
       form.reset();
       setPhone("");
-    } else if (status === 422 && json.errors) {
-      setErrors(json.errors);
-      setState({ kind: "idle" });
-    } else if (status === 503) setState({ kind: "error", reason: "not_configured" });
-    else if (status === 429) setState({ kind: "error", reason: "rate_limited" });
-    else if (status === 0) setState({ kind: "error", reason: "network" });
-    else setState({ kind: "error", reason: "failed" });
+    } else setState({ kind: "error", reason: result });
   }
 
   const clearError = (name: string) => {
@@ -141,7 +142,6 @@ export function Contact() {
                     <TriangleAlert className="size-5 shrink-0" aria-hidden />
                     <span>
                       {state.reason === "not_configured" && "O envio on-line ainda não está ativado. Sua mensagem não foi enviada — fale conosco por telefone ou WhatsApp."}
-                      {state.reason === "rate_limited" && "Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente novamente."}
                       {state.reason === "network" && "Sem conexão com o servidor. Verifique sua internet e tente novamente."}
                       {state.reason === "failed" && "Não foi possível enviar agora. Tente novamente ou fale conosco por telefone ou WhatsApp."}{" "}
                       <a href={whatsappLink(mainWhatsApp.number)} target="_blank" rel="noopener noreferrer" className="font-semibold underline">Abrir WhatsApp</a>

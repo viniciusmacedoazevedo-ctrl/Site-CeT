@@ -87,8 +87,8 @@ export default function PrivacyPolicy() {
       <h2>4. Compartilhamento</h2>
       <p>Os dados podem ser compartilhados, na medida do necessário, com:</p>
       <ul>
-        <li>Provedor de hospedagem do site: <Pending>fornecedor a confirmar</Pending>;</li>
-        <li>Serviço de entrega de e-mails dos formulários: <Pending>fornecedor a confirmar</Pending>;</li>
+        <li>Provedor de hospedagem do site: Cloudflare Pages (Cloudflare, Inc.);</li>
+        <li>Serviço que encaminha os formulários ao nosso e-mail: Web3Forms;</li>
         <li>Autoridades públicas, quando houver obrigação legal ou ordem judicial.</li>
       </ul>
       <p>
@@ -98,8 +98,8 @@ export default function PrivacyPolicy() {
         de terceiros, que possuem políticas de privacidade próprias.
       </p>
       <p>
-        Alguns fornecedores podem armazenar dados fora do Brasil. Nesses casos, adotamos as salvaguardas previstas no
-        art. 33 da LGPD. <Pending>Confirmar fornecedores e localização dos dados</Pending>
+        Esses fornecedores podem tratar dados fora do Brasil. Nesses casos, adotamos as salvaguardas previstas no
+        art. 33 da LGPD. <Pending>Confirmar com a assessoria jurídica</Pending>
       </p>
 
       <h2>5. Armazenamento e prazo de retenção</h2>
@@ -114,7 +114,7 @@ export default function PrivacyPolicy() {
       <h2>6. Segurança</h2>
       <p>
         Adotamos medidas técnicas e administrativas para proteger os dados, incluindo conexão criptografada (HTTPS),
-        validação e limitação de envios no servidor, proteção contra spam e acesso restrito às informações recebidas.
+        validação dos formulários, proteção contra spam e acesso restrito às informações recebidas.
         Nenhuma medida é infalível; em caso de incidente de segurança relevante, comunicaremos a ANPD e os titulares
         afetados, nos termos do art. 48 da LGPD.
       </p>
