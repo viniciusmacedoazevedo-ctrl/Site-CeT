@@ -60,6 +60,8 @@ export const navItems: NavItem[] = [
     children: [
       { href: "/sobre", label: "Quem somos", description: "História, missão, visão e valores" },
       { href: "/sobre#diferenciais", label: "Diferenciais", description: "Como trabalhamos ao seu lado" },
+      { href: "/clientes", label: "Clientes", description: "Empresas que confiam na C&T" },
+      { href: "/lgpd", label: "LGPD e proteção de dados", description: "Em conformidade com a Lei nº 13.709/2018" },
       { href: "/sobre#parceiros", label: "Parceiros", description: "Empresas que caminham com a C&T" },
       { href: "/sobre#momentos", label: "Momentos", description: "Eventos, ações sociais e Instagram" },
     ],

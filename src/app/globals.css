@@ -262,3 +262,13 @@
 
 /* Esconde a Cláu enquanto o menu móvel está aberto */
 body[data-menu-open] .chat-root { display: none; }
+
+/* Letreiro de logos dos clientes */
+.marquee { overflow: hidden; }
+.marquee-track { display: flex; width: max-content; gap: 1rem; animation: cet-marquee linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes cet-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee-track { animation: none; }
+}

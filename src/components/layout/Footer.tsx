@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { company, socialLinks } from "@/data/company";
 import { navItems } from "@/data/content";
 import { units } from "@/data/units";
@@ -90,6 +90,7 @@ export function Footer() {
         <div className="flex flex-col gap-4 border-t border-white/10 py-6 text-xs text-white/45 md:flex-row md:items-center md:justify-between">
           <p>© {year} {company.legalName} Todos os direitos reservados.</p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            <li><Link href="/lgpd" className="inline-flex items-center gap-1.5 font-semibold text-cyan-300 hover:text-white"><ShieldCheck className="size-3.5" aria-hidden />Em conformidade com a LGPD</Link></li>
             <li><Link href="/politica-de-privacidade" className="hover:text-white">Política de Privacidade</Link></li>
             <li><Link href="/politica-de-cookies" className="hover:text-white">Política de Cookies</Link></li>
             <li><CookiePreferencesButton className="hover:text-white" /></li>

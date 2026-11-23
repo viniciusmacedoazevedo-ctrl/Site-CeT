@@ -25,6 +25,9 @@ src/
     unidades/                   Unidades com mapas 3D
     links-uteis/                Central de links com busca
     contato/                    Formulário e canais de contato
+    clientes/                   Portfólio de clientes (dados vindos do painel)
+    lgpd/                       LGPD e proteção de dados (em conformidade com a Lei 13.709/2018)
+    admin/                      Área administrativa do portfólio (login pelo Cloudflare Access)
     template.tsx                Transição entre páginas
     politica-de-privacidade/    Política de Privacidade (LGPD)
     politica-de-cookies/        Política de Cookies
@@ -46,7 +49,10 @@ src/
 public/images/   branding, partners, units, events
 public/_headers, public/_redirects   Segurança e redirecionamentos na hospedagem
 public/referencias/  Logo original enviada pelo cliente
-docs/            Levantamento do site antigo, pendências e integrações
+docs/            Levantamento do site antigo, pendências, integrações e área administrativa
+functions/       API do portfólio (Cloudflare Pages Functions)
+server/          Código compartilhado da API: banco D1, login e validação
+migrations/      Estrutura do banco (referência; criada automaticamente)
 ```
 
 **Para editar textos, telefones, links ou serviços, altere apenas os arquivos em `src/data/`.**
@@ -69,9 +75,14 @@ npm run dev
 
 Acesse http://localhost:3000.
 
+O portfólio de clientes e o painel `/admin` dependem da API, que não roda no `npm run dev`.
+Para testá-los no computador, veja `docs/area-administrativa.md` → "Testar no computador".
+
 ## Publicar de graça (Cloudflare Pages)
 
-O site é **100% estático**: `npm run build` gera a pasta `out/`, sem servidor. O Cloudflare
+As páginas são estáticas: `npm run build` gera a pasta `out/`. A única parte dinâmica é o
+portfólio de clientes, atendido pelas Pages Functions da pasta `functions/` com um banco D1,
+ambos gratuitos e publicados junto com o site. O Cloudflare
 Pages hospeda de graça, com uso comercial permitido, HTTPS automático, banda ilimitada e
 domínio próprio.
 
@@ -83,11 +94,12 @@ domínio próprio.
    - Build output directory: `out`
    - Variáveis de ambiente: `NEXT_PUBLIC_WEB3FORMS_KEY`, `NEXT_PUBLIC_SITE_URL` e `NODE_VERSION=20`
 3. Em Custom domains, adicione `www.cetconsultores.com.br` e siga as instruções de DNS.
+4. Configure o banco e o login do painel de clientes: `docs/area-administrativa.md`.
 
 Os arquivos `public/_headers` (cabeçalhos de segurança) e `public/_redirects` (endereços do
 site antigo) são aplicados automaticamente pelo Cloudflare Pages e também pelo Netlify.
-Alternativas gratuitas: Netlify (plano Free) ou GitHub Pages; o GitHub Pages ignora
-`_headers` e `_redirects`.
+O portfólio e o painel `/admin` dependem da Cloudflare (Pages Functions, D1 e Access). Em
+outras hospedagens, o resto do site funciona e a página de clientes mostra "Portfólio em atualização".
 
 Antes de publicar:
 
@@ -100,6 +112,7 @@ Antes de publicar:
 | Item | Solução | Custo |
 |---|---|---|
 | Hospedagem | Cloudflare Pages (site estático) | Gratuito |
+| Portfólio e painel | Pages Functions (100 mil chamadas/dia), D1 (5 GB) e Access (até 50 usuários) | Gratuito |
 | Formulários | Web3Forms (250 envios/mês no plano grátis) | Gratuito |
 | Mapas 3D | MapLibre + OpenFreeMap, sem chave de API | Gratuito |
 | Fontes e ícones | Fraunces, Manrope e Lucide (licenças livres, servidas pelo próprio site) | Gratuito |

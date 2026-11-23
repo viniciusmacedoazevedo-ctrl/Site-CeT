@@ -15,6 +15,9 @@ texto neutro. Os arquivos indicados ficam em `src/data/`.
 | Prazos de retenção dos dados | Sugestão de 12 meses para contatos | Política de Privacidade |
 | Fornecedores | Cloudflare Pages (hospedagem) e Web3Forms (formulários), já citados na política | Política de Privacidade |
 | Revisão jurídica das políticas | Obrigatória | — |
+| Medidas de proteção da página LGPD | Confirmar que cada medida listada é adotada pela C&T. O site diz "em conformidade com a LGPD" e não cita certificação | `lgpd.ts` → `measures` |
+| Painel de clientes | Configurar banco D1 e login (Cloudflare Access) | `docs/area-administrativa.md` |
+| Autorizações dos clientes | Obter autorização por escrito de cada cliente antes de exibir nome e logo no portfólio | Painel /admin |
 
 ## Conferir
 
