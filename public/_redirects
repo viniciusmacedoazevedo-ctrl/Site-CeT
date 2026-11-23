@@ -1,0 +1,6 @@
+# Endereços do site antigo -> novas páginas (Cloudflare Pages e Netlify)
+/home               /                  301
+/eventos            /sobre#momentos    301
+/eventos/*          /sobre#momentos    301
+/baixe-o-app        /sobre             301
+/trabalhe-conosco   /contato           302
